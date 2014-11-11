@@ -31,20 +31,26 @@
                 axis: {
                     y: { 
                         1: [0,200,400,600],
-                        2: [0,500,1000]
+                        2: [0,50]
                     }
                 },
                 lines: {
-                    0: { "type" : "curve", "xEnd" : 400, "yEnd" : 200},
-                    1: { "type" : "straight", "xEnd" : 400, "yEnd" : 50}
+                    0: { "type" : "curve", "xEnd" : 375, "yEnd" : 200},
+                    1: { "type" : "straight", "xEnd" : 375, "yEnd" : 50}
                 }
             };
             var options = { 
                 name: 'productivity',
-                element : "productivity", 
-                chart : { width : 400, height : 400}, 
-                barWidth: 30,
-                axis: { bottom : 20, left : 20}      
+                element: "productivity", 
+                chart: {
+                    width : 400, 
+                    height : 400, 
+                    marginleft : 30, 
+                    marginbottom : 20,
+                    marginright: 25,
+                    margintop: 0
+                },
+                barWidth: 30
             };
 
             // draw productivity chart
