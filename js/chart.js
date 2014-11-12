@@ -3,22 +3,40 @@ var Chart = function (data,options) {
     data = data;
     options = options;
     
-    //  y and x coord for bottom left position
-    yChartBottomLeftCoord = (options.chart.height - options.chart.marginbottom);
-    xChartBottomLeftCoord = (options.chart.marginleft);
-    
-    // y and x coord for bottom right position
-    yChartBottomRightCoord = (options.chart.height - options.chart.marginbottom);
-    xChartBottomRightCoord = (options.chart.width - options.chart.marginright);
-    
-    // y and x coord for bottom right position
-    yChartTopRightCoord = 0;
-    xChartTopRightCoord = (options.chart.width - options.chart.marginright);
-    
     // paper should be globally available
     paper = Raphael(options.element, options.chart.width, options.chart.height);
     
+    this.setCoords();
+    
 };
+
+Chart.prototype.setCoords = function(){
+    
+    //  y and x coord for bottom left position  
+    coords = {
+        top : {
+            left : { 
+                x : 0, 
+                y : 0
+            },
+            right : { 
+                x : (options.chart.width - options.chart.marginright), 
+                y : 0
+            },
+        },
+        bottom : {
+            left : { 
+                x : (options.chart.marginleft),
+                y : (options.chart.height - options.chart.marginbottom)
+            },
+            right : { 
+                x : (options.chart.width - options.chart.marginright), 
+                y : (options.chart.height - options.chart.marginbottom)
+            }
+        },
+    };
+    
+}
 
 /**
  * chart draw method invokes individual chart parts:
@@ -39,7 +57,7 @@ Chart.prototype.draw = function(){
 Chart.prototype.bars = function(){
     
     // we need data, the chart height and a paper to draw the rectangle
-    if(data.bars, options.chart.height, yChartBottomLeftCoord, paper){
+    if(data.bars, paper){
         
         bars = [];
         
@@ -47,8 +65,8 @@ Chart.prototype.bars = function(){
 
             var barHeight = data.bars[i]["value"];
 
-            var xBarCoord = xChartBottomLeftCoord+(i*(options.barWidth+1))+1;
-            var yBarCoord = yChartBottomLeftCoord - barHeight;
+            var xBarCoord = coords.bottom.left.x+(i*(options.barWidth+1))+1;
+            var yBarCoord = coords.bottom.left.y - barHeight;
 
             var bar = paper.rect(xBarCoord, yBarCoord,options.barWidth,barHeight);
             bar.attr({fill: data.bars[i]["color"], 'stroke':'none'});
@@ -56,7 +74,7 @@ Chart.prototype.bars = function(){
             bars.push = bar;
             
             // place the bar label on the x-axis
-            paper.text(xChartBottomLeftCoord+(i*(options.barWidth+1))+15, yChartBottomLeftCoord+10, data.bars[i]["label"]);
+            paper.text(coords.bottom.left.x+(i*(options.barWidth+1))+15, coords.bottom.left.y+10, data.bars[i]["label"]);
 
         }
         
@@ -71,29 +89,29 @@ Chart.prototype.axis = function(){
     if(options.chart.height, options.chart.width){
     
         // y1 axis
-        paper.path(['M', xChartBottomLeftCoord, 0, 'L', xChartBottomLeftCoord, yChartBottomLeftCoord]);
+        paper.path(['M', coords.bottom.left.x, 0, 'L', coords.bottom.left.x, coords.bottom.left.y]);
 
         // y1 axis labels
         for(var i in data.axis.y[1]){
             
             // place the label on the y-axis
-            paper.text(xChartBottomLeftCoord-15, yChartBottomLeftCoord-(i*(yChartBottomLeftCoord / (data.axis.y[1].length - 1))-10), data.axis.y[1][i]);
+            paper.text(coords.bottom.left.x-15, coords.bottom.left.y-(i*(coords.bottom.left.y / (data.axis.y[1].length - 1))-10), data.axis.y[1][i]);
             
         }
         
         // y2 axis
-        paper.path(['M', xChartBottomRightCoord, yChartBottomRightCoord, 'L', xChartTopRightCoord, yChartTopRightCoord]);
+        paper.path(['M', coords.bottom.right.x, coords.bottom.right.y, 'L', coords.top.right.x, coords.top.right.y]);
         
         // y2 axis labels
         for(var i in data.axis.y[2]){
             
-            // place the label on the y-axis
-            paper.text(xChartBottomRightCoord+15, yChartBottomRightCoord-(i*(yChartBottomRightCoord / (data.axis.y[2].length - 1))-10), data.axis.y[2][i]);
+            // place the label on the y2 axis
+            paper.text(coords.bottom.right.x+15, coords.bottom.right.y-(i*(coords.bottom.right.y / (data.axis.y[2].length - 1))-10), data.axis.y[2][i]);
             
         }
         
         // x1 axis
-        paper.path(['M', xChartBottomLeftCoord, yChartBottomLeftCoord, 'L', xChartBottomRightCoord, yChartBottomRightCoord]);
+        paper.path(['M', coords.bottom.left.x, coords.bottom.left.y, 'L', coords.bottom.right.x, coords.bottom.right.y]);
     
     }
     
@@ -121,12 +139,12 @@ Chart.prototype.lines = function(){
                 var xCurve = xEnd  / 2;
                 var yCurve = yEnd;
 
-                var path = paper.path(['M', xChartBottomLeftCoord, yChartBottomLeftCoord, 'Q', xCurve, yCurve, xEnd, yEnd]);
+                var path = paper.path(['M', coords.bottom.left.x, coords.bottom.left.y, 'Q', xCurve, yCurve, xEnd, yEnd]);
                 paths.push = path;
     
             } else if(data.lines[i].type == 'straight'){
                 
-                var path = paper.path(['M', xChartBottomLeftCoord, yChartBottomLeftCoord, 'L', xEnd, yEnd]);
+                var path = paper.path(['M', coords.bottom.left.x, coords.bottom.left.y, 'L', xEnd, yEnd]);
                 paths.push = path;
                 
             }
