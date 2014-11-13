@@ -22,16 +22,14 @@
             
             var data = { 
                 bars: {
-                    0: { "label" : "jan", "value" : 100, "color" : "blue"},
-                    1: { "label" : "feb", "value" : 75, "color" : "red"},
-                    2: { "label" : "mar", "value" : 0, "color" : "yellow"},
-                    3: { "label" : "apr", "value" : 50, "color" : "orange"},
-                    4: { "label" : "may", "value" : 50, "color" : "green"},
+                    0: { "label" : "jan", values : {"bar" : 100, "line" : 50}, "color" : "blue"},
+                    1: { "label" : "feb", values : {"bar" : 100, "line" : 50}, "color" : "blue"},
+                    2: { "label" : "mar", values : {"bar" : 100, "line" : 50}, "color" : "blue"},
                 },
                 axis: {
                     y: { 
-                        1: [0,200,400,600],
-                        2: [0,50]
+                        left: [0,100,200,300,400],
+                        right: [0,50]
                     }
                 },
                 lines: {
@@ -43,12 +41,12 @@
                 name: 'productivity',
                 element: "productivity", 
                 chart: {
-                    width : 400, 
-                    height : 400, 
+                    width : 455, 
+                    height : 440, 
                     marginleft : 30, 
                     marginbottom : 20,
                     marginright: 25,
-                    margintop: 0
+                    margintop: 20
                 },
                 barWidth: 30
             };
