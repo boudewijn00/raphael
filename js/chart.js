@@ -68,7 +68,7 @@ Chart.prototype.bars = function(){
         
         bars = [];
         
-        for(var i in data.bars){
+        for(i in data.bars){
 
             var barHeight = data.bars[i].values.bar;
 
@@ -81,9 +81,28 @@ Chart.prototype.bars = function(){
             bars.push = bar;
             
             // place the bar label on the x-axis
-            paper.text(coords.bottom.left.x+(i*(options.barWidth+1))+15, coords.bottom.left.y+10, data.bars[i]["label"]);
+            paper.text(
+                coords.bottom.left.x+(i*(options.barWidth+1))+15, 
+                coords.bottom.left.y+10, 
+                data.bars[i]["label"]
+            );
             
             // continue this line by adding the position for this bar to the path
+            if(data.bars[i].values.line){
+                
+                if(!yLineCoordStart){
+                    var yLineCoordStart = coords.bottom.left.y;
+                }
+                
+                var xLineCoordStart = coords.bottom.left.x+(i*(options.barWidth)) + 1;
+                var xLineCoordEnd = xLineCoordStart + options.barWidth + 1;
+                var yLineCoordEnd = coords.bottom.left.y - data.bars[i].values.line;
+                
+                paper.path(['M', xLineCoordStart, yLineCoordStart, 'L', xLineCoordEnd, yLineCoordEnd]);
+                
+                var yLineCoordStart = yLineCoordEnd;
+                
+            }
             
         }
         
