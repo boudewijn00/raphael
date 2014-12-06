@@ -20,16 +20,71 @@
         <script type="text/javascript" src="js/chart.js"></script>
         <script type="text/javascript">
             
-            var data = { 
-                bars: {
-                    0: { "label" : "jan", values : {"bar" : 100, "line" : 50}, "color" : "blue"},
-                    1: { "label" : "feb", values : {"bar" : 100, "line" : 75}, "color" : "blue"},
-                    2: { "label" : "mar", values : {"bar" : 100, "line" : 50}, "color" : "blue"},
+            var data = {
+                content: {
+                    0: {
+                        bars: {
+                            0: {
+                                "label": "jan",
+                                values: {
+                                    segments: {
+                                        0: {
+                                            "value": 100,
+                                            "color": "blue"
+                                        },
+                                        1: {
+                                            "value": 25,
+                                            "color": "red"
+                                        }
+                                    },
+                                    "line": 50       
+                                },
+                                "color": "blue"
+                            },
+                            1: {
+                                "label": "feb",
+                                values: {
+                                    segments: {
+                                        0: {
+                                            "value": 50,
+                                            "color": "blue"
+                                        },
+                                        1: {
+                                            "value": 50,
+                                            "color": "red"
+                                        }
+                                    },
+                                    "line": 60       
+                                },
+                                "color": "blue"
+                            }
+                        }
+                    },
+                    1: {
+                        bars: {
+                            0: {
+                                "label": "oct",
+                                values: {
+                                    segments: {
+                                        0: {
+                                            "value": 75,
+                                            "color": "blue"
+                                        },
+                                        1: {
+                                            "value": 25,
+                                            "color": "red"
+                                        }
+                                    },
+                                    "line": 50       
+                                },
+                            },
+                        }
+                    }
                 },
                 axis: {
-                    y: { 
-                        left: [0,100,200,300,400],
-                        right: [0,50]
+                    y: {
+                        left: [0, 100, 200, 300, 400],
+                        right: [0, 50]
                     }
                 },
                 lines: {
@@ -37,23 +92,25 @@
                     //1: { "type" : "straight", "xEnd" : 375, "yEnd" : 50}
                 }
             };
-            var options = { 
+            
+            var options = {
                 name: 'productivity',
-                element: "productivity", 
+                element: "productivity",
                 chart: {
-                    width : 455, 
-                    height : 440, 
-                    marginleft : 30, 
-                    marginbottom : 20,
+                    width: 455,
+                    height: 440,
+                    marginleft: 30,
+                    marginbottom: 20,
                     marginright: 25,
                     margintop: 20
                 },
                 barWidth: 30
             };
-
+            
             // draw productivity chart
-            var chart = new Chart(data,options);
-            chart.draw();
+            var chart = new Chart(data, options);
+            chart.drawChart();
+            chart.drawContent(0);
             
         </script>
     </body>
